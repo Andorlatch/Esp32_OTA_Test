@@ -4,9 +4,10 @@
 #include <filesystem>
 #include <zlib.h> // CRC32 için gerekli
 #include <iomanip>
-
+#include <chrono>
+#include <thread>
 namespace fs = std::filesystem;
-
+std::ostringstream newFileName;
 // CRC32 hesaplama fonksiyonu
 uint32_t calculateCRC32(const std::string& filename) {
     std::ifstream file(filename, std::ios::binary);
@@ -50,7 +51,7 @@ int main(int argc, char* argv[]) {
         uint32_t crc = calculateCRC32(filePath);
 
         // Yeni dosya adý oluþtur
-        std::ostringstream newFileName;
+
         newFileName << fileSize << "_" << std::hex << std::uppercase << crc << ".bin";
 
         // Yeniden adlandýr
@@ -63,6 +64,18 @@ int main(int argc, char* argv[]) {
         std::cerr << "Hata: " << e.what() << "\n";
         return 1;
     }
+    const std::string gitAdd = "git add " + newFileName.str();
+    const std::string gitCommit = "git commit -m \" added " + newFileName.str() + " file to path. \"";
+
+    system(gitAdd.c_str());
+    std::cout << gitAdd << " printed.." << '\n';
+   
+    system(gitCommit.c_str());
+    std::cout << gitCommit << " printed.." << '\n';
+   
+    system("git push");
+    std::cout << "git push" << " printed.." << '\n';
+    
 
     return 0;
 }
