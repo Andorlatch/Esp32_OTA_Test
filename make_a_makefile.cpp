@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <filesystem>
-#include <zlib.h> // CRC32 için gerekli
+#include <zlib.h> // CRC32 iï¿½in gerekli
 #include <iomanip>
 #include <chrono>
 #include <thread>
@@ -12,7 +12,7 @@ std::ostringstream newFileName;
 uint32_t calculateCRC32(const std::string& filename) {
     std::ifstream file(filename, std::ios::binary);
     if (!file) {
-        throw std::runtime_error("Dosya açýlamadý.");
+        throw std::runtime_error("Dosya aï¿½ï¿½lamadï¿½.");
     }
 
     std::vector<char> buffer(1024);
@@ -31,7 +31,7 @@ uint32_t calculateCRC32(const std::string& filename) {
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        std::cerr << "Kullaným: " << argv[0] << " <dosya yolu>\n";
+        std::cerr << "Kullanim: " << argv[0] << " <dosya yolu>\n";
         return 1;
     }
 
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
         fs::path path(filePath);
 
         if (!fs::exists(path)) {
-            std::cerr << "Dosya bulunamadý.\n";
+            std::cerr << "Dosya bulunamadï¿½.\n";
             return 1;
         }
 
@@ -50,15 +50,15 @@ int main(int argc, char* argv[]) {
         // CRC32 hesapla
         uint32_t crc = calculateCRC32(filePath);
 
-        // Yeni dosya adý oluþtur
+        // Yeni dosya adï¿½ oluï¿½tur
 
         newFileName << fileSize << "_" << std::hex << std::uppercase << crc << ".bin";
 
-        // Yeniden adlandýr
+        // Yeniden adlandï¿½r
         fs::path newPath = path.parent_path() / newFileName.str();
         fs::rename(path, newPath);
 
-        std::cout << "Dosya baþarýyla yeniden adlandýrýldý: " << newPath << "\n";
+        std::cout << "Dosya baï¿½arï¿½yla yeniden adlandï¿½rï¿½ldï¿½: " << newPath << "\n";
     }
     catch (const std::exception& e) {
         std::cerr << "Hata: " << e.what() << "\n";
