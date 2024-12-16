@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
     system(gitCommit.c_str());
     std::cout << gitCommit << " printed.." << '\n';
    
-    system("git push");
+    system("git push --force origin main");
     std::cout << "git push" << " printed.." << '\n';
     
 
